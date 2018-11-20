@@ -37,3 +37,15 @@ gem build logstash-filter-ieee_oui.gemspec
 bin/logstash-plugin install /your/local/plugin/logstash-filter-ieee_oui.gem
 ```
 - Start Logstash and proceed to test the plugin
+
+#### USAGE
+```
+filter {
+  ieee_oui {
+    source => 'macaddress'
+    target => 'oui_vendor'
+    ouifile => '/path_to/oui-logstash.txt'
+  }
+}
+```
+
