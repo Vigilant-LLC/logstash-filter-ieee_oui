@@ -43,10 +43,9 @@ class LogStash::Filters::IeeeOui < LogStash::Filters::Base
     matched = false
     validhex = false
     mac = event.get(@source) 
-    if mac =~ /:/
-      mfrid = mac.split(':')[0..2].join.upcase
-    elsif mac =~ /-/
-      mfrid = mac.split('-')[0..2].join.upcase
+    delimiter = mac[2]
+    if delimiter[/\H/]
+       mfrid = mac.split("#{delimiter}")[0..2].join.upcase
     else
       mfrid = mac[0,6].upcase
     end
