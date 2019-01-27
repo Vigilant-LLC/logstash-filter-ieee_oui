@@ -1,3 +1,5 @@
+## 1.0.3
+  - stripped carriage return
 ## 1.0.2
   - merged in ouihash
 ## 1.0.1
