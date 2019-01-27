@@ -56,6 +56,7 @@ class LogStash::Filters::IeeeOui < LogStash::Filters::Base
         validhex = true
         vendor = @ouihash[mfrid]
         if vendor
+          vendor = vendor.gsub(/\r/,"")
           matched = true
           event.set("#{@target}", vendor)
         end
