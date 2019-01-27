@@ -1,3 +1,5 @@
+## 1.0.2
+  - merged in ouihash
 ## 1.0.1
   - Plugin built and tested on Logstash 6.5.4
   - added autodelimiter checking
