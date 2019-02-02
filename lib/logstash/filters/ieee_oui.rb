@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "logstash/filters/base"
 require "logstash/namespace"
+require 'digest'
 
 # The ieee_oui filter allows you to match mac addresses to vendor names.
 # It accepts source mac addresses delimited by a colon(:), a dash(-) or no delimiter.
@@ -36,35 +37,56 @@ class LogStash::Filters::IeeeOui < LogStash::Filters::Base
       @ouihash = nil
     else
       @logger.info("Using oui file", :path => @ouifile)
-      @ouihash = Hash[*File.read(ouifile).split(/\t|\n/)]
+      @md5 = md5file(@ouifile)
+      @newmd5 = md5file(@ouifile)
+      @ouihash = hashfile(@ouifile)
     end
   end # def register
 
-  public
+  #public
+  def md5file(file)
+    return Digest::MD5.file(file).hexdigest
+  end
+
+  def hashfile(file)
+    return Hash[*File.read(file).split(/\t|\n/)]
+  end
+
+  def refreshfile(file)
+    @newmd5 = md5file(file)
+    if @newmd5 != @md5
+      @md5 = md5file(file)
+      @ouihash = hashfile(file)
+      @logger.info("Refreshing oui file" , :path => file)
+    end
+  end
+
   def filter(event)
     matched = false
     if ! @ouihash.nil?
+      refreshfile(@ouifile) 
       validhex = false
       mac = event.get(@source)
       delimiter = mac[2]
       if delimiter[/\H/]
-         mfrid = mac.split("#{delimiter}")[0..2].join.upcase
+        mfrid = mac.split("#{delimiter}")[0..2].join.upcase
       else
         mfrid = mac[0,6].upcase
       end
       if !mfrid[/\H/]
         validhex = true
         vendor = @ouihash[mfrid]
-        if vendor
+        if vendor.nil?
+          vendor = 'unknown'
+        else
           vendor = vendor.gsub(/\r/,"")
-          matched = true
-          event.set("#{@target}", vendor)
         end
+        matched = true
+        event.set("#{@target}", vendor)
       end
-      # filter_matched should go in the last line of our successful code
-      @logger.debug("Invalid Hex in source", :string => @source) if not validhex
-      @tag_on_failure.each{|tag| event.tag(tag)} if not matched
     end
+    @logger.debug("Invalid Hex in source", :string => @source) if not validhex
+    @tag_on_failure.each{|tag| event.tag(tag)} if not matched
     filter_matched(event) if matched
   end # def filter
 end # class LogStash::Filters::IeeeOui

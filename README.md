@@ -11,9 +11,16 @@ See [logstash-oui-scraper](https://github.com/Vigilant-LLC/logstash-oui-scraper)
 
 See [CHANGELOG](https://github.com/Vigilant-LLC/logstash-filter-ieee_oui/blob/master/CHANGELOG.md) for development notes.
 
-
-# License
-It is fully free and fully open source. The license is Apache 2.0, meaning you are pretty much free to use it however you want in whatever way. [LICENSE](https://github.com/Vigilant-LLC/logstash-filter-ieee_oui/blob/master/LICENSE)
+#### USAGE
+```
+filter {
+  ieee_oui {
+    source => 'macaddress'
+    target => 'oui_vendor'
+    ouifile => '/path_to/oui-logstash.txt'
+  }
+}
+```
 
 #### Code
 - To get started, you'll need JRuby with the Bundler gem installed.
@@ -38,14 +45,6 @@ bin/logstash-plugin install /your/local/plugin/logstash-filter-ieee_oui.gem
 ```
 - Start Logstash and proceed to test the plugin
 
-#### USAGE
-```
-filter {
-  ieee_oui {
-    source => 'macaddress'
-    target => 'oui_vendor'
-    ouifile => '/path_to/oui-logstash.txt'
-  }
-}
-```
+# License
+It is fully free and fully open source. The license is Apache 2.0, meaning you are pretty much free to use it however you want in whatever way. [LICENSE](https://github.com/Vigilant-LLC/logstash-filter-ieee_oui/blob/master/LICENSE)
 

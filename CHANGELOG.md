@@ -1,3 +1,5 @@
+## 1.0.4
+  - added auto refresh of ouifile
 ## 1.0.3
   - stripped carriage return
 ## 1.0.2

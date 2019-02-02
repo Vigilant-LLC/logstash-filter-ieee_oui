@@ -39,7 +39,6 @@ describe LogStash::Filters::IeeeOui do
     end
   end
 
-
   describe "mac with dashes" do
     let(:config) do <<-CONFIG
     filter {
@@ -76,7 +75,6 @@ describe LogStash::Filters::IeeeOui do
     end
   end
 
-
   describe "mac invalid hex" do
     let(:config) do <<-CONFIG
     filter {
@@ -94,7 +92,7 @@ describe LogStash::Filters::IeeeOui do
     end
   end
 
-  describe "non existent" do
+  describe "unknown" do
     let(:config) do <<-CONFIG
     filter {
       ieee_oui {
@@ -106,9 +104,8 @@ describe LogStash::Filters::IeeeOui do
     CONFIG
     end
 
-    sample("mac" => "00-00-00-0b-67-6c") do
-      expect(subject.get("tags")).to include("_ouilookupfailure")
+    sample("mac" => "02-42-C0-0b-67-6c") do
+      expect(subject.get('[oui][mac_vendor]')).to eq('unknown')
     end
   end
-
 end
