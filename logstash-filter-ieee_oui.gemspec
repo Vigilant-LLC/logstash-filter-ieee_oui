@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name          = 'logstash-filter-ieee_oui'
-  s.version       = '1.0.4'
+  s.version       = '1.0.5'
   s.licenses      = ['Apache-2.0']
   s.summary       = 'Logstash filter to parse OUI data from mac addresses, requires external OUI txt file from ieee.org'
   s.description   = 'This gem is a Logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/logstash-plugin install gemname. This gem is not a stand-alone program'
-  s.homepage      = 'https://github.com/Vigilant-LLC/logstash-filter-ieee_oui'
-  s.authors       = ['Mike Pananen']
-  s.email         = 'panaman@geekempire.com'
+  s.homepage      = 'https://github.com/figure-of-late/logstash-filter-ieee_oui'
+  s.authors       = ['figure-of-late']
+  s.email         = '46728454+figure-of-late@users.noreply.github.com'
   s.require_paths = ['lib']
 
   # Files
