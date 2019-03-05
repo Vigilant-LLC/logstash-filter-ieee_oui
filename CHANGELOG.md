@@ -1,3 +1,5 @@
+## 1.0.5
+  - thread locking and refresh interval of oui file
 ## 1.0.4
   - added auto refresh of ouifile
 ## 1.0.3
